@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-GalleryApiApplication<gallery_api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "gallery.image.gallery_api.GalleryApiApplication",
+            "projectName": "gallery_api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
