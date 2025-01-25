@@ -46,6 +46,7 @@ const Public = () => {
             {fetchData && fetchData.length > 0 ? (
               fetchData.map(item => (
                 <div key={item.id}className="col-6 card card_gallery my-3 offset-md-3" >
+                  <div className = "card-header">Aman</div>
                   <img src={`data:${item.mimeType};base64,${item.image}`} alt="" className="card-img-top" />
                   <h1>{item.description}</h1>
                   <div className="card-body">

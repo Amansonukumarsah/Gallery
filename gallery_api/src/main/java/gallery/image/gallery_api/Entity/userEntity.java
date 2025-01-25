@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class userEntity {
 
     @Id
@@ -48,8 +48,19 @@ public class userEntity {
     private List<follows> followers;
     // getterand setter
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<imageEntity> imageEntity;
+
     public Long getId() {
         return id;
+    }
+
+    public List<imageEntity> getImageEntity() {
+        return imageEntity;
+    }
+
+    public void setImageEntity(List<imageEntity> imageEntity) {
+        this.imageEntity = imageEntity;
     }
 
     public void setId(Long id) {

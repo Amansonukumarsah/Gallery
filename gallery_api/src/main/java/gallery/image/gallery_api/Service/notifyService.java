@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ public class notifyService {
         KafkaTemplate.send("follow-requests", message);
     }
 
-    @KafkaListener(topics = "follow-requests", groupId = "follow-group")
+    // @KafkaListener(topics = "follow-requests", groupId = "follow-group")
     public void consumeFollowRequest(String message) {
 
         System.out.println("...message....." + message);

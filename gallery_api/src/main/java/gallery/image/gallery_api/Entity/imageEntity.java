@@ -7,7 +7,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -37,6 +39,10 @@ public class imageEntity {
     @Lob
     @Column(name = "image", columnDefinition = "LONGBLOB")
     private byte[] image;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private userEntity user;
 
     // constructor
     // imageEntity(Type type) {
@@ -83,6 +89,14 @@ public class imageEntity {
 
     public Type getType() {
         return this.type;
+    }
+
+    public userEntity getUser() {
+        return user;
+    }
+
+    public void setUser(userEntity user) {
+        this.user = user;
     }
 
 }

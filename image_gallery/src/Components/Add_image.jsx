@@ -15,7 +15,7 @@ const Add_Image = () => {
 
     const submit = async (e) => {
         e.preventDefault();
-        // console.log("Form data:", description, picClickBy, image,type);
+        console.log("Form data:", description, picClickBy, image,type);
         // console.log(typeof description);
         const formData = new FormData();
         formData.append("description", description);
