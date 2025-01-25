@@ -59,6 +59,7 @@ public class authService {
     // Handle the Login Of User
     public ResponseEntity<String> loginUser(String username, String password) {
         userEntity User = userRepository.findByUsername(username);
+        System.out.println("..........user.........." + User);
         // .orElseThrow(()->new UsernameNotFoundException("User not found"));
         if (User == null) {
             System.out.println("User not found for username: " + username);

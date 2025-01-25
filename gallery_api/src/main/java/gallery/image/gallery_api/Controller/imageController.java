@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import gallery.image.gallery_api.Entity.imageEntity;
 import gallery.image.gallery_api.Entity.imageEntity.Type;
+import gallery.image.gallery_api.Entity.userEntity;
 import gallery.image.gallery_api.Service.imageService;
 
 @RestController
@@ -29,6 +30,8 @@ public class imageController {
 
     @Autowired
     private imageService imageService;
+
+    private userEntity user;
 
     @GetMapping("/getImage")
     public List<imageEntity> getAllImages(
@@ -56,13 +59,20 @@ public class imageController {
             @RequestPart("picClickBy") String picClickBy,
             @RequestParam("type") Type type,
             @RequestPart("image") MultipartFile file) throws IOException {
-
+        // set the image details
         imageEntity imageEntity = new imageEntity();
         imageEntity.setDescription(description);
         imageEntity.setPicClickBy(picClickBy);
         imageEntity.setType(type);
         imageEntity.setImage(file.getBytes());
 
+        // set the user for each image
+        // user.getImageEntity().forEach(image -> image.setUser(user));
+        // System.out.println("..............user............." + user);
+        // imageEntity.setUser(user);
+        // System.out.println(".............imag......" + imageEntity.getUser());
+        // System.out.println(".............imag......" + imageEntity.getType());
+        // final
         imageEntity savedImage = imageService.saveImage(imageEntity);
         return new ResponseEntity<>(savedImage, HttpStatus.CREATED);
     }
@@ -89,4 +99,6 @@ public class imageController {
         imageService.deleteImage(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    // set the user
 }

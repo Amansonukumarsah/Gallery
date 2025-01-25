@@ -18,6 +18,7 @@ public class SecurityConfig {
         HttpSecurity
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/images/getImage").permitAll()
+                        .requestMatchers("/api/images/postImage").permitAll()
                         .requestMatchers("/api/user/registerUser").permitAll()
                         .requestMatchers("/api/user/loginUser").permitAll()
                         .requestMatchers("/api/user/logout").permitAll()
