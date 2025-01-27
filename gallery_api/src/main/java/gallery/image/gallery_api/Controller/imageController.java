@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import gallery.image.gallery_api.Entity.imageEntity;
 import gallery.image.gallery_api.Entity.imageEntity.Type;
 import gallery.image.gallery_api.Entity.userEntity;
+import gallery.image.gallery_api.Repository.userRepository;
+import gallery.image.gallery_api.Service.authService;
 import gallery.image.gallery_api.Service.imageService;
 
 @RestController
@@ -32,6 +34,11 @@ public class imageController {
     private imageService imageService;
 
     private userEntity user;
+
+    @Autowired
+    private authService authService;
+    @Autowired
+    private userRepository userRepository;
 
     @GetMapping("/getImage")
     public List<imageEntity> getAllImages(
@@ -68,10 +75,14 @@ public class imageController {
 
         // set the user for each image
         // user.getImageEntity().forEach(image -> image.setUser(user));
-        // System.out.println("..............user............." + user);
-        // imageEntity.setUser(user);
-        // System.out.println(".............imag......" + imageEntity.getUser());
-        // System.out.println(".............imag......" + imageEntity.getType());
+        // fetch the current user
+        String userName = authService.getuserName();
+        userEntity user = userRepository.findByUsername(userName);
+        System.out.println("..............user............." + user);
+        user.addImage(imageEntity);
+        System.out.println("...........imageEntity..........." + imageEntity);
+        System.out.println(".............imag......" + imageEntity.getUser());
+        System.out.println(".............imag......" + imageEntity.getType());
         // final
         imageEntity savedImage = imageService.saveImage(imageEntity);
         return new ResponseEntity<>(savedImage, HttpStatus.CREATED);
