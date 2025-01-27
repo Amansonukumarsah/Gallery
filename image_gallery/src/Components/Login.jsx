@@ -20,15 +20,17 @@ const Login = () => {
             const res = await loginUser(formData);
             if(res && res.error.data)
                 {   
-                    if(res.error.data==='User not found'){
-                        alert(res.error.data);
-                        navigate('/login');
-                    }
-                    else{
-                        alert("Login Successfully");
-                        localStorage.setItem('authToken', res.error.data);
-                        navigate('/dashboard/yp');
-                        window.location.reload();
+                    const errorMessage = res.error.data
+                    switch(errorMessage){
+                        case 'User not found':
+                        case 'Invalid credentials':
+                            alert(errorMessage);
+                            navigate('/login');
+                        default:
+                            alert("Login Successfully");
+                            localStorage.setItem('authToken', errorMessage);
+                            navigate('/dashboard/yp');
+                            window.location.reload();
                     }
                     setemail("");
                     setpassword("");

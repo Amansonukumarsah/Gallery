@@ -49,18 +49,29 @@ public class userEntity {
     // getterand setter
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<imageEntity> imageEntity;
+    private List<imageEntity> imageEntities;
 
+    public void addImage(imageEntity imageEntity) {
+        imageEntities.add(imageEntity);
+        imageEntity.setUser(this);
+    }
+
+    public void removeImage(imageEntity imageEntity) {
+        imageEntity.setUser(null);
+        imageEntities.remove(imageEntity);
+    }
+
+    // getter and setter
     public Long getId() {
         return id;
     }
 
     public List<imageEntity> getImageEntity() {
-        return imageEntity;
+        return imageEntities;
     }
 
-    public void setImageEntity(List<imageEntity> imageEntity) {
-        this.imageEntity = imageEntity;
+    public void setImageEntity(List<imageEntity> imageEntities) {
+        this.imageEntities = imageEntities;
     }
 
     public void setId(Long id) {

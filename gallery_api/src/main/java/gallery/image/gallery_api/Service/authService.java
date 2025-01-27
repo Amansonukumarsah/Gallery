@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +26,8 @@ public class authService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CustomUserDetailsService CustomUserDetailsService;
 
     @Autowired
     private JwtTokenProvider JwtTokenProvider;
@@ -38,14 +40,10 @@ public class authService {
     // Handle the Registration Of User
     public ResponseEntity<String> RegisterUser(userEntity registerUser) {
 
-        // Handle the unique username
         userEntity User = userRepository.findByUsername(registerUser.getUsername());
         if (User != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
         }
-
-        // Store the data in databse
-
         userEntity user = new userEntity();
         user.setName(registerUser.getName());
         user.setUsername(registerUser.getUsername());
@@ -65,28 +63,36 @@ public class authService {
             System.out.println("User not found for username: " + username);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found");
         }
-
         if (!passwordEncoder.matches(password, User.getPassword())) {
+            System.out.println("...............password.........");
             return ResponseEntity.badRequest().body("Invalid credentials");
         }
         String token = JwtTokenProvider.createToken(User.getUsername(), User.getRole());
-        // return ResponseEntity.ok(new AuthResponse(token));
+        setSecurityContextHolder(token);
         return ResponseEntity.ok(token);
+    }
+
+    public void setSecurityContextHolder(String token) {
+        String currentUser = JwtTokenProvider.getUsername(token);
+        System.out.println(currentUser);
+        UserDetails userDetails = CustomUserDetailsService.loadUserByUsername(currentUser);
+        if (JwtTokenProvider.validateToken(token, userDetails)) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
     }
 
     public String getuserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         System.out.println(".....authentication............" + authentication);
-
-        if (authentication == null || !authentication.isAuthenticated()
-                || authentication instanceof AnonymousAuthenticationToken) {
-            return "anonymous";
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("No authenticated user found");
         }
-
-        // Check if the principal is an instance of UserDetails
         Object principal = authentication.getPrincipal();
         if (principal instanceof UserDetails) {
+            System.out.println(".......princiap.........");
             UserDetails userDetails = (UserDetails) principal;
             return userDetails.getUsername();
         }
