@@ -16,21 +16,36 @@ export const ImageApi = createApi({
       } 
     }),
 
+    // postData: builder.mutation({
+    //   query: (user) => ({
+    //     url: '/postImage',
+    //     method: 'POST',
+    //   //   headers: {
+    //   //     'Content-Type': 'application/json'
+    //   // },
+    //   // body: JSON.stringify(user)
+    //     body: user,
+    //   }),
+    //   onError: (error, variables, context) => {
+    //     console.error('Failed to submit data:', error);
+    //     // You can handle errors here, such as dispatching an error action
+    //   },
+    // }),
+
     postData: builder.mutation({
       query: (user) => ({
         url: '/postImage',
         method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      // },
-      // body: JSON.stringify(user)
-        body: user,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("authToken")}` // Include JWT token
+        },
+        body: user, // Send FormData directly (browser sets content-type)
       }),
       onError: (error, variables, context) => {
         console.error('Failed to submit data:', error);
-        // You can handle errors here, such as dispatching an error action
       },
     }),
+    
 
     putData: builder.mutation({
       query: (user) => ({

@@ -24,14 +24,15 @@ const Add_Image = () => {
         formData.append("image", image); // Assuming `image` is a file object
         try {
             const res = await postData(formData);
+                console.log("////////////////",res);
                 if (res && res.data ) {
                     alert("Image have been uploaded successfully");
                     console.log("Data submitted successfully:", res.data);
                     // Optionally handle success here (e.g., show a success message, redirect, etc.)
-                    setDesc(""); // Clear form fields after successful submission
+                    setDesc(""); 
                     setPic("");
                     settype("");
-                    setImage(""); // Clear the image state after successful submission
+                    setImage("");
                 } else {
                     console.log("Failed to submit image data",res);
                 }

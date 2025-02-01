@@ -35,7 +35,7 @@ public class authController {
 
     @PostMapping("/registerUser")
     public ResponseEntity<String> registerUser(@ModelAttribute userEntity registerUser) {
-        return authService.RegisterUser(registerUser);
+        return authService.registerUser(registerUser);
     }
 
     @PostMapping("/loginUser")

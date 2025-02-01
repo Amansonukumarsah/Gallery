@@ -2,17 +2,12 @@ import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useLogoutUserMutation } from '../service/HandleLoginUserApi';
 const Dashboard = () => {
-
     const navigate=useNavigate();
-
     const [logoutUser] = useLogoutUserMutation();
-
     const logout = async()=>{
         const token = localStorage.getItem('authToken');
-        console.log('.....local......',token)
         try {
             const response = await logoutUser({token});
-            console.log(response);
             if(response.error.data){
                 localStorage.removeItem("authToken");
                 alert(response.error.data);
@@ -38,27 +33,20 @@ const Dashboard = () => {
                                 <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Your_Profile</span>
                             </NavLink>
                         </li>
-
-
                         <li className="nav-item">
                             <NavLink to="/dashboard/update_profile" className="nav-link align-middle px-0">
                                 <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Update_Profile</span>
                             </NavLink>
                         </li>
-
-                        
                         <li>
                             <a href="#" className="nav-link px-0 align-middle">
                                 <i className="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Change_Password</span></a>
                         </li>
-
-
                         <li className="nav-item">
                             <NavLink to="/dashboard/all_pic" className="nav-link align-middle px-0">
                                 <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Pics</span>
                             </NavLink>
                         </li>
-                        
                         <li>
                             <a href="#" className="nav-link px-0 align-middle">
                                 <i className="fs-4 bi-people"></i> 

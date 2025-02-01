@@ -9,16 +9,10 @@ const Public = () => {
   const [model, setmodel] = useState(false);
   const [tempimg, settempimg] = useState('');
   const {type} = useParams();
-
   const [page,setPage] = useState(0);
   const [limit] = useState(10);
-
-  console.log(".........pubic type......",type)
-  // will cause the destructuring { type }
   const { data: fetchData } = useFetchDataQuery({type,page,limit});
 
-  console.log("........fetchData...public...........",fetchData);
-  
   const getImg = (imgsrc) => {
     settempimg(imgsrc)
     setmodel(true)
@@ -38,11 +32,8 @@ const Public = () => {
             </div>
           </div>
         </div>
-
-
         <div className="container-fluid">
           <div className="row">
-
             {fetchData && fetchData.length > 0 ? (
               fetchData.map(item => (
                 <div key={item.id}className="col-6 card card_gallery my-3 offset-md-3" >
@@ -62,25 +53,6 @@ const Public = () => {
             ) : (
               <p>No Image available</p>
             )}
-
-
-
-            {/* {
-              data.map((img, ind) => (
-                <div className="col-6 card card_gallery my-3 offset-md-3" >
-                  <img src={img.img} alt="" className="card-img-top" />
-                  <div className="card-body">
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  </div>
-                  <div className="">
-                    <span className="mx-2"><AiFillLike size={30} /></span>
-                    <span className="mx-3"><AiFillDislike size={30} /></span>
-                    <span onClick={() => getImg(img.img)}  >comment</span>
-                  </div>
-                </div>
-              ))
-            } */}
-
 
           </div>
         </div>

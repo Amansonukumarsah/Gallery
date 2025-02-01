@@ -26,6 +26,7 @@ const Login = () => {
                         case 'Invalid credentials':
                             alert(errorMessage);
                             navigate('/login');
+                            break
                         default:
                             alert("Login Successfully");
                             localStorage.setItem('authToken', errorMessage);

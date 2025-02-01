@@ -5,18 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import gallery.image.gallery_api.Component.JwtTokenProvider;
 import gallery.image.gallery_api.Entity.userEntity;
 import gallery.image.gallery_api.Repository.userRepository;
-// import gallery.image.gallery_api.Configuration.SecurityConfig.passwordEncoder;
 
 @Service
 public class authService {
@@ -26,11 +20,12 @@ public class authService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private CustomUserDetailsService CustomUserDetailsService;
 
     @Autowired
     private JwtTokenProvider JwtTokenProvider;
+
+    @Autowired
+    private securityService securityService;
 
     // Handle the Search functionality or send all the userDetails
     public List<userEntity> getAllUser() {
@@ -38,73 +33,41 @@ public class authService {
     }
 
     // Handle the Registration Of User
-    public ResponseEntity<String> RegisterUser(userEntity registerUser) {
-
-        userEntity User = userRepository.findByUsername(registerUser.getUsername());
-        if (User != null) {
+    public ResponseEntity<String> registerUser(userEntity registerUser) {
+        // Check if the user already exists
+        if (userRepository.findByUsername(registerUser.getUsername()).isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
         }
+        // Validate Confirm Password (Optional)
+        if (!registerUser.getPassword().equals(registerUser.getConfirmPassword())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Passwords do not match");
+        }
+
+        // Create new user entity
         userEntity user = new userEntity();
         user.setName(registerUser.getName());
         user.setUsername(registerUser.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(registerUser.getPassword()));
-        user.setConfirmPassword(new BCryptPasswordEncoder().encode(registerUser.getConfirmPassword()));
+        user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
+        user.setConfirmPassword(passwordEncoder.encode(registerUser.getConfirmPassword()));
+        // Save user in database
         userRepository.save(user);
-        return new ResponseEntity<>("Registration is Successfully",
-                HttpStatus.ACCEPTED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Registration Successful");
     }
 
     // Handle the Login Of User
     public ResponseEntity<String> loginUser(String username, String password) {
-        userEntity User = userRepository.findByUsername(username);
-        System.out.println("..........user.........." + User);
+        userEntity User = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         // .orElseThrow(()->new UsernameNotFoundException("User not found"));
         if (User == null) {
-            System.out.println("User not found for username: " + username);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found");
         }
         if (!passwordEncoder.matches(password, User.getPassword())) {
-            System.out.println("...............password.........");
             return ResponseEntity.badRequest().body("Invalid credentials");
         }
         String token = JwtTokenProvider.createToken(User.getUsername(), User.getRole());
-        setSecurityContextHolder(token);
+        System.out.println("......................" + token);
+        // securityService.setSecurityContextHolder(token);
         return ResponseEntity.ok(token);
     }
-
-    public void setSecurityContextHolder(String token) {
-        String currentUser = JwtTokenProvider.getUsername(token);
-        System.out.println(currentUser);
-        UserDetails userDetails = CustomUserDetailsService.loadUserByUsername(currentUser);
-        if (JwtTokenProvider.validateToken(token, userDetails)) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
-    }
-
-    public String getuserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        System.out.println(".....authentication............" + authentication);
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("No authenticated user found");
-        }
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof UserDetails) {
-            System.out.println(".......princiap.........");
-            UserDetails userDetails = (UserDetails) principal;
-            return userDetails.getUsername();
-        }
-
-        // If the principal is not UserDetails, it might be a String (e.g., a username
-        // in case of JWT)
-        if (principal instanceof String) {
-            return (String) principal;
-        }
-
-        // Fallback in case the principal is neither UserDetails nor a String
-        return "Unknown";
-    }
-
 }

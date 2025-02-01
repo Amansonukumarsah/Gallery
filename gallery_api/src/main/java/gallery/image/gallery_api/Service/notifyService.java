@@ -14,7 +14,7 @@ public class notifyService {
     private StringRedisTemplate redisTemplate;
 
     @Autowired
-    private authService authService;
+    private securityService securityService;
 
     private final KafkaTemplate<String, String> KafkaTemplate;
 
@@ -25,7 +25,7 @@ public class notifyService {
     }
 
     public void sendFollowRequest(String followUserName) {
-        String current_user = authService.getuserName();
+        String current_user = securityService.getUserName();
         String message = current_user + " wants to follow " + followUserName;
         String key = FOLLOW_REQUEST_PREFIX + UUID.randomUUID().toString();
         KafkaTemplate.send("follow-requests", message);
