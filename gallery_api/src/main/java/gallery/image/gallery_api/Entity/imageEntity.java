@@ -1,5 +1,7 @@
 package gallery.image.gallery_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -42,6 +44,8 @@ public class imageEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    // @JsonIgnore // Prevent recursion
+    @JsonBackReference // 🔹 Back reference (child)
     private userEntity user;
 
     // constructor

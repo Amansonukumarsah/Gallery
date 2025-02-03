@@ -6,26 +6,18 @@ const Search = () => {
     const [user, setUser] = useState(''); // User input state
     // const [notiyUser,setnotifyUser] = useState([]);//for the user notiy
     const [filteredData, setFilteredData] = useState([]); // State for filtered data4
-    
     const [notify] =  usePostNotifyMutation();
-    
-
     const { data: userDetails, isLoading, isError } = useGetUserQuery();
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
     if (isError || !userDetails) {
         return <div>Error loading data</div>;
     }
-
-
     const follow = async(event,username)=>{
         event.preventDefault()
         try {
             const res=await notify({username})
-            // console.log("username",username,res);
             if(res && res.error.data){
                 alert(res.error.data);
             }
@@ -37,16 +29,13 @@ const Search = () => {
         }
         
     }
-
     // Filter function to update the state based on user input
     const handleSearch = (event) => {
         const searchValue = event.target.value.toLowerCase();
         setUser(searchValue); 
-
         const filteredResults = userDetails.filter((user) =>
             user.username.toLowerCase().includes(searchValue)
         );
-
         setFilteredData(filteredResults); 
     };
 
@@ -62,7 +51,6 @@ const Search = () => {
                     />
                 </form>
             </div>
-
             <div>
                 {filteredData.length > 0 ? (
                     <ul>

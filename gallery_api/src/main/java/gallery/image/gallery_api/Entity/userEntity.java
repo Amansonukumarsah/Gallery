@@ -2,6 +2,8 @@ package gallery.image.gallery_api.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +33,8 @@ public class userEntity {
     private String password;
 
     @Column(name = "confirmPassword", length = 255, nullable = false)
+    // @Transient if you want to donot store the value of that field then we can use
+    // Transient
     private String confirmPassword;
 
     public enum Role {
@@ -49,6 +53,8 @@ public class userEntity {
     // getterand setter
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // @JsonIgnore // Prevent recursion
+    @JsonManagedReference // 🔹 Forward reference (parent)
     private List<imageEntity> imageEntities;
 
     public void addImage(imageEntity imageEntity) {

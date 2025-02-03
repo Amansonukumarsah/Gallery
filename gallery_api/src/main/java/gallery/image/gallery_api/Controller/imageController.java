@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +34,6 @@ public class imageController {
 
     @Autowired
     private imageService imageService;
-
-    private userEntity user;
 
     @Autowired
     private authService authService;
@@ -60,30 +60,30 @@ public class imageController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    // Add the image
     @PostMapping(value = "/postImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<imageEntity> uploadImage(
             @RequestPart("description") String description,
             @RequestPart("picClickBy") String picClickBy,
             @RequestParam("type") Type type,
             @RequestPart("image") MultipartFile file) throws IOException {
-        // set the image details
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String userName = authentication.getName();
+        userEntity user = userRepository.findByUsername(userName)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         imageEntity imageEntity = new imageEntity();
         imageEntity.setDescription(description);
         imageEntity.setPicClickBy(picClickBy);
         imageEntity.setType(type);
         imageEntity.setImage(file.getBytes());
-
-        // set the user for each image
-        // user.getImageEntity().forEach(image -> image.setUser(user));
-        // fetch the current user
-        String userName = authService.getuserName();
-        userEntity user = userRepository.findByUsername(userName);
-        System.out.println("..............user............." + user);
-        user.addImage(imageEntity);
-        System.out.println("...........imageEntity..........." + imageEntity);
-        System.out.println(".............imag......" + imageEntity.getUser());
-        System.out.println(".............imag......" + imageEntity.getType());
-        // final
+        // Attach the logged-in user to the image
+        imageEntity.setUser(user);
+        // Save image
         imageEntity savedImage = imageService.saveImage(imageEntity);
         return new ResponseEntity<>(savedImage, HttpStatus.CREATED);
     }
@@ -111,5 +111,4 @@ public class imageController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // set the user
 }
