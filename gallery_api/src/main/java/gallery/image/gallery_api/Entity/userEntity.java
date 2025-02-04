@@ -45,6 +45,7 @@ public class userEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // hanlde the follow and followrs
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<follows> following;
 
@@ -52,6 +53,7 @@ public class userEntity {
     private List<follows> followers;
     // getterand setter
 
+    // Make the relationship between user and image
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     // @JsonIgnore // Prevent recursion
     @JsonManagedReference // 🔹 Forward reference (parent)

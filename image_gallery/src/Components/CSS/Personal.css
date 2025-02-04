@@ -4,16 +4,12 @@
     box-sizing: border-box;
 }
 
-.personalbody{
+.personalbody1{
     height: auto;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.549);
-    position: absolute;
 }
-.personalbody1{
- position: relative;
- margin-top: 20px;
-}
+
 .p1{
     height:auto;
     width: 100%;
@@ -27,18 +23,14 @@
     font-size:large;
     font-family: 'Courier New', Courier, monospace;
 }
-/* 
-.p2{
-   height:400px; 
-} */
-
 .p3 img{
-    height: 250px;
+    height: auto;
     width: 300px;
     box-sizing: border-box;
     border-radius: 40px;
     box-shadow: 20px 20px 20px 20px;
 }
+
 .NF_pic_link a{
     font-size: large;
     color: whitesmoke;

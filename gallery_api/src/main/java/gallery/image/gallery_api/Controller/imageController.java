@@ -25,7 +25,6 @@ import gallery.image.gallery_api.Entity.imageEntity;
 import gallery.image.gallery_api.Entity.imageEntity.Type;
 import gallery.image.gallery_api.Entity.userEntity;
 import gallery.image.gallery_api.Repository.userRepository;
-import gallery.image.gallery_api.Service.authService;
 import gallery.image.gallery_api.Service.imageService;
 
 @RestController
@@ -36,8 +35,6 @@ public class imageController {
     private imageService imageService;
 
     @Autowired
-    private authService authService;
-    @Autowired
     private userRepository userRepository;
 
     @GetMapping("/getImage")
@@ -46,6 +43,10 @@ public class imageController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "10") int limit) {
         PageRequest pageable = PageRequest.of(page, limit);
+        // System.out.println(type);
+        if (type.equalsIgnoreCase("All")) {
+            return imageService.getAllImages();
+        }
         if (type != null) {
             return imageService.getImageByType(type, pageable);
         } else {

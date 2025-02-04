@@ -1,6 +1,19 @@
-import React from 'react'
-import "./CSS/Your_Profile.css"
+import React, { useState } from 'react';
+import { useFetchDataQuery } from '../service/HandleAddImageApi';
+import "./CSS/Your_Profile.css";
+
 const Your_Profile = () => {
+    const [page,setpage] = useState(0);
+    const [limit] = useState(10);
+    const [type] = useState("All");
+    const {data:fetchData,isLoading,isError} = useFetchDataQuery({page,type,limit});
+    console.log(fetchData)
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+    if (isError || !fetchData) {
+        return <div>Error loading data</div>;
+    }
     return (
         <div class="container">
             <div class="row">
@@ -31,7 +44,7 @@ const Your_Profile = () => {
                                         <div className="p-4 text-black" style={{ backgroundColor: "#f8f9fa" }}>
                                             <div className="d-flex justify-content-end text-center py-1">
                                                 <div>
-                                                    <p className="mb-1 h5">253</p>
+                                                    <p className="mb-1 h5">{fetchData.length}</p>
                                                     <p className="small text-muted mb-0">Photos</p>
                                                 </div>
                                                 <div className="px-3">
