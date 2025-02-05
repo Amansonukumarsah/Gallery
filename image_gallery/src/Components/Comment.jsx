@@ -32,7 +32,7 @@ const Comment = () => {
         <>
 
             <div>
-                <h1>COMMENT</h1>
+                <h1 className="bg-white">COMMENT</h1>
             </div>
         </>
     )

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useLogoutUserMutation } from '../service/HandleLoginUserApi';
+import "./CSS/Public.css";
 const Dashboard = () => {
     const navigate=useNavigate();
     const [logoutUser] = useLogoutUserMutation();
@@ -20,7 +21,6 @@ const Dashboard = () => {
         } catch (error) {
             console.log(".....error...",error);
         }
-       
     }
     return (
         <div className='container-fluid'>

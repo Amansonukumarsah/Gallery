@@ -23,19 +23,19 @@ public class imageService {
     @Autowired
     private imageRepository imageRepository;
 
-    public List<imageEntity> getImageByType(String type, PageRequest pageable) {
-        List<imageEntity> activeUserImage = imageRepository.findByType(type, pageable);
-        if (type.equalsIgnoreCase("public")) {
-            return activeUserImage;
-        }
-        List<imageEntity> filterImage = getFilterImage(activeUserImage);
-        return filterImage;
+    public List<imageDTO> getImageByType(String type, PageRequest pageable) {
+        List<imageEntity> activeUserImage = imageRepository.findByType(type, pageable); // Get content from Page
+        // If type is "public", return the list directly
+        List<imageEntity> filteredImages = type.equalsIgnoreCase("public") ? activeUserImage
+                : getFilterImage(activeUserImage);
+        return filteredImages.stream().map(imageDTO::new).collect(Collectors.toList());
     }
 
-    public List<imageEntity> getAllImages() {
+    public List<imageDTO> getAllImages() {
         List<imageEntity> activeUserImage = imageRepository.findByAll();
         List<imageEntity> filterImage = getFilterImage(activeUserImage);
-        return filterImage;
+        return filterImage.stream().map(imageDTO::new).collect(Collectors.toList());
+        // return filterImage;
     }
 
     public Optional<imageEntity> getImageById(Long id) {

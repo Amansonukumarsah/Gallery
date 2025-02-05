@@ -25,6 +25,7 @@ import gallery.image.gallery_api.Entity.imageEntity;
 import gallery.image.gallery_api.Entity.imageEntity.Type;
 import gallery.image.gallery_api.Entity.userEntity;
 import gallery.image.gallery_api.Repository.userRepository;
+import gallery.image.gallery_api.Service.imageDTO;
 import gallery.image.gallery_api.Service.imageService;
 
 @RestController
@@ -38,7 +39,7 @@ public class imageController {
     private userRepository userRepository;
 
     @GetMapping("/getImage")
-    public List<imageEntity> getAllImages(
+    public List<imageDTO> getAllImages(
             @RequestParam("type") String type,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "10") int limit) {
