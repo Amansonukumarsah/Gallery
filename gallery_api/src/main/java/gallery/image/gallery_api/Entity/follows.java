@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+// @Table(name = "Follows")
 public class follows {
 
     @Id

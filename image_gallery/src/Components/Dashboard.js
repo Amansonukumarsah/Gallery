@@ -22,7 +22,6 @@ const Dashboard = () => {
         }
        
     }
-
     return (
         <div className='container-fluid'>
             <div className='row'>
@@ -49,7 +48,7 @@ const Dashboard = () => {
                         </li>
                         <li>
                             <a href="#" className="nav-link px-0 align-middle">
-                                <i className="fs-4 bi-people"></i> 
+                                <i className="fs-4 bi-people"></i>
                                 <span onClick={logout} class="ms-1 d-none d-sm-inline">Logout</span>
                             </a>
                         </li>

@@ -14,12 +14,10 @@ import gallery.image.gallery_api.Entity.imageEntity;
 @Repository
 public interface imageRepository extends JpaRepository<imageEntity, Long> {
     // Define custom query methods here if needed
-
-    // @Query(value = "SELECT * FROM image_entity WHERE type IN (:types)",
-    // nativeQuery = true)
-    // List<imageEntity> findByType(@Param("type") List<imageEntity.Type> types);
-
     @Query(value = "SELECT * FROM image_entity WHERE type = :type", nativeQuery = true)
     List<imageEntity> findByType(@Param("type") String type, PageRequest pageable);
+
+    @Query(value = "SELECT * FROM image_entity", nativeQuery = true)
+    List<imageEntity> findByAll();
 
 }

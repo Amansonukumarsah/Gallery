@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFetchDataQuery } from '../service/HandleAddImageApi';
 import aman from './Image/Aman.jpg';
-
 const Edit_Profile = () => {
 
+    
     const { data, error, isLoading } = useFetchDataQuery();
-
     if (isLoading) return <div>Looding........</div>
-
     if(error) return <div>Error :{error.message}</div>
-
-    useEffect=()=>({
-        
-    },[])
-
-
     return (
         <>
         {
@@ -40,25 +32,15 @@ const Edit_Profile = () => {
                             <div class="col-md-6"><label class="labels">Name</label>
                                 <input type="text" class="form-control" placeholder="first name" value="" />
                             </div> <div class="col-md-6"><label class="labels">Surname</label>
-
-
                                 <input 
                                 type="text" 
                                 class="form-control" 
                                 value=""
                                 placeholder="surname" />
-
-
-
                             </div>
                         </div> <div class="row mt-3"> <div class="col-md-12">
-
-
                             <label class="labels">PhoneNumber</label>
                             <input type="text" class="form-control" placeholder="enter phone number" value="" />
-
-
-
                         </div> <div class="col-md-12"><label class="labels">Address</label>
                                 <input type="text" class="form-control" placeholder="enter address" value="" />
                             </div> <div class="col-md-12"><label class="labels">Email ID</label>
@@ -70,14 +52,12 @@ const Edit_Profile = () => {
                             <div class="col-md-6">
                                 <label class="labels">Country</label>
                                 <input type="text" class="form-control" placeholder="country" value="" />
-
                             </div> <div class="col-md-6"><label class="labels">State/Region</label>
                                 <input type="text" class="form-control" value="" placeholder="state" />
                             </div> </div>
                         <div class="mt-5 text-center">
                             <button class="btn btn-primary profile-button" type="button">Save Profile</button>
                         </div> </div> </div> <div class="col-md-4">
-                    
                 </div>
             </div>
         </div>
