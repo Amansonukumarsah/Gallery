@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class GalleryApiApplication {
-
 	public static void main(String[] args) {
 		System.out.println("Shree Ganynesh!! Start Project");
 		SpringApplication.run(GalleryApiApplication.class, args);
