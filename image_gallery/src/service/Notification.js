@@ -5,14 +5,13 @@ export const notification = createApi({
     baseQuery: fetchBaseQuery({ 
         baseUrl: "http://localhost:8081/api/notify",
         prepareHeaders: (headers) => {
-            const token = localStorage.getItem('authToken');
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`);
-            }
+            headers.set('Content-Type', 'application/json');
             return headers;
         },
-     }),
+
+     }),  // Corrected baseQuery to include baseUrl
     endpoints: (builder) => ({
+        // For posting notifications
         postNotify: builder.mutation({
             query: (username) => ({
                 url: '/postNotify',
@@ -23,6 +22,8 @@ export const notification = createApi({
                 console.error('Failed to submit data:', error);
             },
         }),
+
+        // For getting notifications
         getNotify: builder.query({
             query: () => ({
                 url: '/getNotify',
@@ -35,5 +36,7 @@ export const notification = createApi({
     }),
 });
 
+// Correctly export the mutation and query hooks
 export const { usePostNotifyMutation, useGetNotifyQuery } = notification;
+
 export const { reducer: notificationApiReducer } = notification;
