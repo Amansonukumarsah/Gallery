@@ -11,12 +11,14 @@ import Login from './Components/Login';
 import Main from './Components/Main';
 import Nature from './Components/Nature';
 import Nav from './Components/Nav';
+import Notification from './Components/Notification';
 import Personal from './Components/Personal';
 import Public from './Components/public';
 import Reg from './Components/Registration';
 import Form from './Components/Reviewform';
 import Search from './Components/Search';
 import Your_Profile from './Components/Your_Profile';
+
 const App = () => {
   return (
     <>
@@ -43,8 +45,8 @@ const App = () => {
             <Route path="yp" element={<Your_Profile />} />
             <Route path="/dashboard/update_profile" element={<Edit_Profile />} />
             <Route path="/dashboard/all_pic" element={<AllPic />} />
+            <Route path="/dashboard/Notification" element={<Notification />} />
         </Route>
-
 
         <Route exact path="/search" element={<Search />} />
       </Routes>

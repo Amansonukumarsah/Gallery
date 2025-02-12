@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useLogoutUserMutation } from '../service/HandleLoginUserApi';
+import "./CSS/Public.css";
 const Dashboard = () => {
     const navigate=useNavigate();
     const [logoutUser] = useLogoutUserMutation();
@@ -20,7 +21,6 @@ const Dashboard = () => {
         } catch (error) {
             console.log(".....error...",error);
         }
-       
     }
     return (
         <div className='container-fluid'>
@@ -30,6 +30,11 @@ const Dashboard = () => {
                         <li className="nav-item">
                             <NavLink to="/dashboard/yp" className="nav-link align-middle px-0">
                                 <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Your_Profile</span>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/dashboard/Notification" className="nav-link align-middle px-0">
+                                <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Notification</span>
                             </NavLink>
                         </li>
                         <li className="nav-item">

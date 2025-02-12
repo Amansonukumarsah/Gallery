@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { useParams } from 'react-router-dom';
 import { useFetchDataQuery } from '../service/HandleAddImageApi';
-import "./CSS/Birds.css";
+import "./CSS/Public.css";
 import Comment from './Comment';
-import Footer from './Footer';
 const Public = () => {
   const [model, setmodel] = useState(false);
   const [tempimg, settempimg] = useState('');
@@ -12,33 +11,60 @@ const Public = () => {
   const [page,setPage] = useState(0);
   const [limit] = useState(10);
   const { data: fetchData } = useFetchDataQuery({type,page,limit});
-
   const getImg = (imgsrc) => {
     settempimg(imgsrc)
     setmodel(true)
   }
   return (
     <>
-      <div className='gallery_body'>
-        <div className={model ? "model open" : "model"}>
-          <div className="container-fluid">
+    {/* get single image */}
+      <div className='card gallery_body'>
+        <div className={model ? "model open" : "model"}
+         style={{
+          opacity:"0.5",
+          border:"30px",
+         }}>
+          <div className="container-fluid my-5 card"style={{
+                height:"500px",
+                width:"auto",
+                opacity:"0.5",
+                backgroundColor:"blue",
+
+              }}>
             <div className="row">
-              <div className="col-6">
-                <img src={tempimg} onClick={() => setmodel(false)} alt="" className="img-fluid" />
+              <div className="col-8 " style={{
+                height:"500px",
+                width:"auto",
+              }}>
+              <img
+              src={`data:image/png;base64,${tempimg}`}
+              alt="Alter Pic"
+              className="img-fluid"
+              onClick={() => setmodel(false)}
+              />
               </div>
-              <div className="col-6">
+              <div className="col-4" style={{
+                height:"500px",
+                width:"auto"
+              }}>
                 <Comment />
               </div>
             </div>
           </div>
         </div>
-        <div className="container-fluid">
+
+        {/* Normal form get All image*/}
+        <div className="container-fluid" >
           <div className="row">
             {fetchData && fetchData.length > 0 ? (
               fetchData.map(item => (
-                <div key={item.id}className="col-6 card card_gallery my-3 offset-md-3" >
-                  <div className = "card-header">Aman</div>
-                  <img src={`data:${item.mimeType};base64,${item.image}`} alt="" className="card-img-top" />
+                <div key={item.id} className="col-6 card card_gallery my-3 offset-md-3" >
+                  <div className = "card-header">{item.userName}</div>
+                  <img
+                  src={`data:${item.mimeType};base64,${item.image}`}
+                  alt=""
+                  className="card-img-top"
+                  />
                   <h1>{item.description}</h1>
                   <div className="card-body">
                     <p className="card-text">Images Are Good</p>
@@ -46,7 +72,7 @@ const Public = () => {
                   <div className="">
                     <span className="mx-2"><AiFillLike size={30} /></span>
                     <span className="mx-3"><AiFillDislike size={30} /></span>
-                    <span onClick={() => getImg(item.image)}  >comment</span>
+                    <span onClick={() => getImg(item.image)}>comment</span>
                   </div>
                 </div>
               ))
@@ -57,7 +83,7 @@ const Public = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
