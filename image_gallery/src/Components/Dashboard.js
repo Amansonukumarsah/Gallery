@@ -33,6 +33,11 @@ const Dashboard = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
+                            <NavLink to="/dashboard/Notification" className="nav-link align-middle px-0">
+                                <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Notification</span>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
                             <NavLink to="/dashboard/update_profile" className="nav-link align-middle px-0">
                                 <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Update_Profile</span>
                             </NavLink>

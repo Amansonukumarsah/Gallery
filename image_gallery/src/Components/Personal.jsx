@@ -14,12 +14,11 @@ const Personal = () => {
     if (isError || !fetchData) {
         return <div>Error loading data</div>;
     }
-    // Add the functationality of pagination.
     const handleNextPage = () => {
         setPage((prevPage) => prevPage + 1);
     };
     const handlePrevPage = () => {
-        setPage((prevPage) => Math.max(prevPage - 1, 0)); // Ensure page doesn't go below 0
+        setPage((prevPage) => Math.max(prevPage - 1, 0));
     };
     const getimage=(image)=>{
         console.log("..........getimage............");

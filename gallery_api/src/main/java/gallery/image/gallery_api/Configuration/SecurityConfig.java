@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/loginUser").permitAll()
                         .requestMatchers("/api/user/logout").permitAll()
                         .requestMatchers("/api/notify/postNotify").permitAll()
+                        .requestMatchers("/api/notify/getNotify").permitAll()
                         .requestMatchers("/api/user/getAllUser").permitAll()
                         .anyRequest().authenticated())
                 // Here we pass the instance (jwtAuthenticationFilter) instead of the class.
