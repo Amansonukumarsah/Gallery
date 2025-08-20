@@ -59,6 +59,12 @@ public class userEntity {
     @JsonManagedReference // 🔹 Forward reference (parent)
     private List<imageEntity> imageEntities;
 
+    // make the relationship between the likeUnlike table with user oneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<likeUnlike> likeUnlike;
+
+    // getter and setter
     public void addImage(imageEntity imageEntity) {
         imageEntities.add(imageEntity);
         imageEntity.setUser(this);
