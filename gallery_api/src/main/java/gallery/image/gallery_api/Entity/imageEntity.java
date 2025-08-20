@@ -2,6 +2,7 @@ package gallery.image.gallery_api.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,7 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "image_Entity")
@@ -48,8 +51,12 @@ public class imageEntity {
     @JsonBackReference // 🔹 Back reference (child)
     private userEntity user;
 
+    // // relationship between image and unlike
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL,orphanRemoval =true)
+    private List<likeUnlike> likeUnlike
+
     // constructor
-    // imageEntity(Type type) {
+    // public imageEntity(Type type) {
     // this.type = type;
     // }
 

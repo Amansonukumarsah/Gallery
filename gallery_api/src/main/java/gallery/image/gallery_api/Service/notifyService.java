@@ -1,5 +1,8 @@
 package gallery.image.gallery_api.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +42,18 @@ public class notifyService {
         String[] messagePart = message.split(" wants to follow ");
         String follower = messagePart[0];
         String following = messagePart[1];
-        redisTemplate.opsForList().rightPush("follow:" + following, follower);
+        // System.out.println(".....messagePart.........", messagePart);
+        // return [];
+        // redisTemplate.opsForList().rightPush("follow:" + following, follower);
+    }
+
+    public List<String> getNotification(String userName) {
+
+        return new ArrayList<>();
+    }
+
+    public void postNotification(Map<String, String> payload) {
+        // payload
     }
 
 }

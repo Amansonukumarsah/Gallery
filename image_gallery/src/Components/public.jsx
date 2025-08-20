@@ -15,27 +15,15 @@ const Public = () => {
     settempimg(imgsrc)
     setmodel(true)
   }
+  // console.log("public......"+fetchData);
   return (
     <>
     {/* get single image */}
-      <div className='card gallery_body'>
-        <div className={model ? "model open" : "model"}
-         style={{
-          opacity:"0.5",
-          border:"30px",
-         }}>
-          <div className="container-fluid my-5 card"style={{
-                height:"500px",
-                width:"auto",
-                opacity:"0.5",
-                backgroundColor:"blue",
-
-              }}>
+      <div className='gallery_body'>
+        <div className={model ? "model open" : "model"}>
+          <div className="container-fluid">
             <div className="row">
-              <div className="col-8 " style={{
-                height:"500px",
-                width:"auto",
-              }}>
+              <div className="col-6">
               <img
               src={`data:image/png;base64,${tempimg}`}
               alt="Alter Pic"
@@ -43,10 +31,7 @@ const Public = () => {
               onClick={() => setmodel(false)}
               />
               </div>
-              <div className="col-4" style={{
-                height:"500px",
-                width:"auto"
-              }}>
+              <div className="col-6">
                 <Comment />
               </div>
             </div>
@@ -54,7 +39,7 @@ const Public = () => {
         </div>
 
         {/* Normal form get All image*/}
-        <div className="container-fluid" >
+        <div className="container-fluid">
           <div className="row">
             {fetchData && fetchData.length > 0 ? (
               fetchData.map(item => (

@@ -10,4 +10,5 @@ public class GalleryApiApplication {
 		SpringApplication.run(GalleryApiApplication.class, args);
 		System.out.println("....................Shree Ganynesh!! Start Project");
 	}
+
 }
